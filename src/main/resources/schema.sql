@@ -12,7 +12,7 @@ CREATE TABLE IF NOT EXISTS "Parent_category"
     FOREIGN KEY ("parent_id") REFERENCES "Category" ("id") ON DELETE CASCADE
 );
 
-CREATE TABLE IF N   OT EXISTS "Brand"
+CREATE TABLE IF NOT EXISTS "Brand"
 (
     "id"          integer PRIMARY KEY,
     "name"        varchar UNIQUE NOT NULL,

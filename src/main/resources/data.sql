@@ -1,17 +1,17 @@
-DELETE FROM "Reply";
-DELETE FROM "Favorites";
-DELETE FROM "Comment";
-DELETE FROM "Products_in_Basket";
-DELETE FROM "Payment_status";
-DELETE FROM "Order";
-DELETE FROM "Ordered_products";
-DELETE FROM "Basket";
-DELETE FROM "Product";
-DELETE FROM "User";
-DELETE FROM "Role";
-DELETE FROM "Brand";
-DELETE FROM "Parent_category";
-DELETE FROM "Category";
+TRUNCATE "Reply";
+TRUNCATE "Favorites";
+TRUNCATE "Comment";
+TRUNCATE "Products_in_Basket";
+TRUNCATE "Payment_status";
+TRUNCATE "Order";
+TRUNCATE "Ordered_products";
+TRUNCATE "Basket";
+TRUNCATE "Product";
+TRUNCATE "User";
+TRUNCATE "Role";
+TRUNCATE "Brand";
+TRUNCATE "Parent_category";
+TRUNCATE "Category";
 
 -- Insert data into "Role"
 INSERT INTO "Role" ("id", "name") VALUES

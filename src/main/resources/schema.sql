@@ -1,4 +1,3 @@
-
 CREATE TABLE IF NOT EXISTS "Category"
 (
     "id"   integer PRIMARY KEY,
@@ -13,7 +12,7 @@ CREATE TABLE IF NOT EXISTS "Parent_category"
     FOREIGN KEY ("parent_id") REFERENCES "Category" ("id") ON DELETE CASCADE
 );
 
-CREATE TABLE IF NOT EXISTS "Brand"
+CREATE TABLE IF N   OT EXISTS "Brand"
 (
     "id"          integer PRIMARY KEY,
     "name"        varchar UNIQUE NOT NULL,
@@ -55,6 +54,20 @@ CREATE TABLE IF NOT EXISTS "Product"
     FOREIGN KEY ("brand_id") REFERENCES "Brand" ("id") ON DELETE CASCADE
 );
 
+CREATE TABLE IF NOT EXISTS "Tag"
+(
+    "id"   integer PRIMARY KEY,
+    "name" varchar NOT NULL
+);
+
+CREATE TABLE IF NOT EXISTS "Product_tags"
+(
+    "product_id" integer,
+    "tag_id"     integer,
+    FOREIGN KEY ("product_id") REFERENCES "Product" ("id") ON DELETE CASCADE,
+    FOREIGN KEY ("tag_id") REFERENCES "Tag" ("id") ON DELETE CASCADE
+);
+
 CREATE TABLE IF NOT EXISTS "Basket"
 (
     "id"          integer PRIMARY KEY,
@@ -63,12 +76,10 @@ CREATE TABLE IF NOT EXISTS "Basket"
     FOREIGN KEY ("user_id") REFERENCES "User" ("id") ON DELETE CASCADE
 );
 
-CREATE TABLE IF NOT EXISTS "Ordered_products"
+CREATE TABLE IF NOT EXISTS "Payment_status"
 (
-    "product_id" integer,
-    "order_id"   integer,
-    FOREIGN KEY ("product_id") REFERENCES "Product" ("id") ON DELETE CASCADE,
-    FOREIGN KEY ("order_id") REFERENCES "Order" ("id") ON DELETE CASCADE
+    "id"     integer PRIMARY KEY,
+    "status" varchar NOT NULL
 );
 
 CREATE TABLE IF NOT EXISTS "Order"
@@ -83,11 +94,15 @@ CREATE TABLE IF NOT EXISTS "Order"
     FOREIGN KEY ("status_id") REFERENCES "Payment_status" ("id") ON DELETE CASCADE
 );
 
-CREATE TABLE IF NOT EXISTS "Payment_status"
+CREATE TABLE IF NOT EXISTS "Ordered_products"
 (
-    "id"     integer PRIMARY KEY,
-    "status" varchar NOT NULL
+    "product_id" integer,
+    "order_id"   integer,
+    FOREIGN KEY ("product_id") REFERENCES "Product" ("id") ON DELETE CASCADE,
+    FOREIGN KEY ("order_id") REFERENCES "Order" ("id") ON DELETE CASCADE
 );
+
+
 
 CREATE TABLE IF NOT EXISTS "Products_in_Basket"
 (

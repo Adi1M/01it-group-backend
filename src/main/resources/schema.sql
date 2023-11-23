@@ -1,16 +1,11 @@
 CREATE TABLE IF NOT EXISTS "Category"
 (
     "id"   integer PRIMARY KEY,
-    "name" varchar NOT NULL
+    "name" varchar NOT NULL,
+    "parent_id" integer,
+    FOREIGN KEY ("parent_id") REFERENCES "Category"("id") ON DELETE CASCADE
 );
 
-CREATE TABLE IF NOT EXISTS "Parent_category"
-(
-    "child_id"  integer,
-    "parent_id" integer,
-    FOREIGN KEY ("child_id") REFERENCES "Category" ("id") ON DELETE CASCADE,
-    FOREIGN KEY ("parent_id") REFERENCES "Category" ("id") ON DELETE CASCADE
-);
 
 CREATE TABLE IF NOT EXISTS "Brand"
 (
@@ -143,3 +138,12 @@ CREATE TABLE IF NOT EXISTS "Reply"
     FOREIGN KEY ("user_id") REFERENCES "User" ("id") ON DELETE CASCADE,
     FOREIGN KEY ("comment_id") REFERENCES "Comment" ("id") ON DELETE CASCADE
 );
+
+
+-- CREATE TABLE IF NOT EXISTS "Parent_category"
+-- (
+--     "child_id"  integer,
+--     "parent_id" integer,
+--     FOREIGN KEY ("child_id") REFERENCES "Category" ("id") ON DELETE CASCADE,
+--     FOREIGN KEY ("parent_id") REFERENCES "Category" ("id") ON DELETE CASCADE
+-- );

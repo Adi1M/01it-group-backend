@@ -1,6 +1,8 @@
 package com.itgroup.models;
 
 import jakarta.persistence.*;
+import org.hibernate.annotations.OnDelete;
+import org.hibernate.annotations.OnDeleteAction;
 
 @Entity
 @Table(name = "Products_in_Basket")
@@ -8,12 +10,16 @@ import jakarta.persistence.*;
 public class ProductsInBasket {
 
     @Id
-    @Column(name = "product_id")
-    private int productId;
+    @ManyToOne
+    @JoinColumn(name = "product_id")
+    @OnDelete(action = OnDeleteAction.CASCADE)
+    private Product product;
 
     @Id
-    @Column(name = "basket_id")
-    private int basketId;
+    @ManyToOne
+    @JoinColumn(name = "basket_id")
+    @OnDelete(action = OnDeleteAction.CASCADE)
+    private Basket basket;
 
     @Column(name = "quantity")
     private int quantity;

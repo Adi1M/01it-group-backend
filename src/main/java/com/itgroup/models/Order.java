@@ -2,6 +2,8 @@ package com.itgroup.models;
 
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotEmpty;
+import org.hibernate.annotations.OnDelete;
+import org.hibernate.annotations.OnDeleteAction;
 
 import java.math.BigDecimal;
 import java.sql.Timestamp;
@@ -15,11 +17,15 @@ public class Order {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
 
-    @Column(name = "user_id")
-    private int userId;
+    @ManyToOne
+    @JoinColumn(name = "user_id")
+    @OnDelete(action = OnDeleteAction.CASCADE)
+    private User user;
 
-    @Column(name = "status_id")
-    private int statusId;
+    @OneToOne
+    @JoinColumn(name = "status_id")
+    @OnDelete(action = OnDeleteAction.CASCADE)
+    private PaymentStatus status;
 
     @Column(name = "price")
     @NotEmpty

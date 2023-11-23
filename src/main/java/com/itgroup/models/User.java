@@ -3,6 +3,8 @@ package com.itgroup.models;
 
 import jakarta.persistence.*;
 import jakarta.validation.constraints.*;
+import org.hibernate.annotations.OnDelete;
+import org.hibernate.annotations.OnDeleteAction;
 
 import java.util.Date;
 
@@ -40,7 +42,9 @@ public class User {
     @Column(name = "birth_day")
     private Date birth_day;
 
-    @Column(name = "role_id")
-    private int role_id;
+    @ManyToOne
+    @JoinColumn(name = "role_id")
+    @OnDelete(action = OnDeleteAction.CASCADE)
+    private Role role;
 
 }

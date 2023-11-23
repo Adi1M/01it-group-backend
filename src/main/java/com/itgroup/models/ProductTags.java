@@ -1,6 +1,8 @@
 package com.itgroup.models;
 
 import jakarta.persistence.*;
+import org.hibernate.annotations.OnDelete;
+import org.hibernate.annotations.OnDeleteAction;
 
 
 @Entity
@@ -9,10 +11,14 @@ import jakarta.persistence.*;
 public class ProductTags {
 
     @Id
-    @Column(name = "product_id")
-    private int productId;
+    @ManyToOne
+    @JoinColumn(name = "product_id")
+    @OnDelete(action = OnDeleteAction.CASCADE)
+    private Product product;
 
     @Id
-    @Column(name = "tag_id")
-    private int tagId;
+    @ManyToOne
+    @JoinColumn(name = "tag_id")
+    @OnDelete(action = OnDeleteAction.CASCADE)
+    private Tag tag;
 }

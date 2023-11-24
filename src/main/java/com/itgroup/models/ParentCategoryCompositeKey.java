@@ -2,6 +2,6 @@
 //import java.io.Serializable;
 //
 //public class ParentCategoryCompositeKey implements Serializable{
-//    private int childId;
+//    private  childId;
 //    private int parentId;
 //}

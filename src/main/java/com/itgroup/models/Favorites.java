@@ -6,7 +6,7 @@ import org.hibernate.annotations.OnDeleteAction;
 
 @Entity
 @Table(name = "Favorites")
-@IdClass(FavoritesCompositeKey.class)
+@IdClass(FavoritesId.class)
 public class Favorites {
 
     @Id

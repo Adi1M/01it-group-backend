@@ -1,17 +1,20 @@
-TRUNCATE "Reply";
-TRUNCATE "Favorites";
-TRUNCATE "Comment";
-TRUNCATE "Products_in_Basket";
-TRUNCATE "Payment_status";
-TRUNCATE "Order";
-TRUNCATE "Ordered_products";
-TRUNCATE "Basket";
-TRUNCATE "Product";
-TRUNCATE "User";
-TRUNCATE "Role";
-TRUNCATE "Brand";
-TRUNCATE "Parent_category";
-TRUNCATE "Category";
+TRUNCATE "Brand" CASCADE;
+TRUNCATE "Category" CASCADE;
+TRUNCATE "Product" CASCADE;
+TRUNCATE "Tag" CASCADE;
+TRUNCATE "Product_tags" CASCADE;
+TRUNCATE "Role" CASCADE;
+TRUNCATE "User" CASCADE;
+TRUNCATE "Comment" CASCADE;
+TRUNCATE "Reply" CASCADE;
+TRUNCATE "Favorites" CASCADE;
+TRUNCATE "Payment_status" CASCADE;
+TRUNCATE "Order" CASCADE;
+TRUNCATE "Ordered_products" CASCADE;
+TRUNCATE "Basket" CASCADE;
+TRUNCATE "Products_in_Basket" CASCADE;
+-- TRUNCATE "Parent_category";
+
 
 -- Insert data into "Role"
 INSERT INTO "Role" ("id", "name") VALUES

@@ -7,7 +7,7 @@ import org.hibernate.annotations.OnDeleteAction;
 
 @Entity
 @Table(name = "Product_tags")
-@IdClass(ProductTagsCompositeKey.class)
+@IdClass(ProductTagsId.class)
 public class ProductTags {
 
     @Id

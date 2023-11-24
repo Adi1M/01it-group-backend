@@ -6,7 +6,7 @@ import org.hibernate.annotations.OnDeleteAction;
 
 @Entity
 @Table(name = "Ordered_products")
-@IdClass(OrderedProductsCompositeKey.class)
+@IdClass(OrderedProductsId.class)
 public class OrderedProducts {
 
     @Id
@@ -19,5 +19,5 @@ public class OrderedProducts {
     @ManyToOne
     @JoinColumn(name = "order_id")
     @OnDelete(action = OnDeleteAction.CASCADE)
-    private Order orderId;
+    private Order order;
 }

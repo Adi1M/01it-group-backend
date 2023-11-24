@@ -9,7 +9,7 @@
 //
 //    @Id
 //    @Column(name = "child_id")
-//    private int childId;
+//    private  childId;
 //
 //    @Id
 //    @Column(name = "parent_id")

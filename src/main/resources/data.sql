@@ -1,5 +1,5 @@
 TRUNCATE "Brand" CASCADE;
-TRUNCATE "Category" CASCADE;
+TRUNCATE category CASCADE;
 TRUNCATE "Product" CASCADE;
 TRUNCATE "Tag" CASCADE;
 TRUNCATE "Product_tags" CASCADE;
@@ -22,7 +22,7 @@ INSERT INTO "Role" ("id", "name") VALUES
                                       (2, 'User');
 
 -- Insert data into "Category"
-INSERT INTO "Category" ("id", "name") VALUES
+INSERT INTO category ("id", "name") VALUES
                                           (1, 'Electronics'),
                                           (2, 'Clothing'),
                                           (3, 'Home and Kitchen');

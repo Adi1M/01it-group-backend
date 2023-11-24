@@ -14,20 +14,20 @@ import org.hibernate.annotations.OnDeleteAction;
 @NoArgsConstructor
 @AllArgsConstructor
 @Entity
-@Table(name = "Category")
+@Table(name = "category")
 public class Category {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+//    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id")
     private Long id;
 
-    @Column(name = "name")
+    @Column(name = "name", nullable = false)
     @NotEmpty
     private String name;
 
-    @OneToOne
-    @JoinColumn(name = "parent_id")
+    @OneToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "parent_id", nullable = false)
     @OnDelete(action = OnDeleteAction.CASCADE)
     private Category parent;
 }

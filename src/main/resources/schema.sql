@@ -3,7 +3,7 @@ CREATE TABLE IF NOT EXISTS "Category"
     "id"   integer PRIMARY KEY,
     "name" varchar NOT NULL,
     "parent_id" integer,
-    FOREIGN KEY ("parent_id") REFERENCES "Category"("id") ON DELETE CASCADE
+    FOREIGN KEY ("parent_id") REFERENCES category ("id") ON DELETE CASCADE
 );
 
 
@@ -45,7 +45,7 @@ CREATE TABLE IF NOT EXISTS "Product"
     "brand_id"     integer,
     "img_url"      varchar NOT NULL,
     "quantity"     integer NOT NULL,
-    FOREIGN KEY ("category_id") REFERENCES "Category" ("id") ON DELETE CASCADE,
+    FOREIGN KEY ("category_id") REFERENCES category ("id") ON DELETE CASCADE,
     FOREIGN KEY ("brand_id") REFERENCES "Brand" ("id") ON DELETE CASCADE
 );
 

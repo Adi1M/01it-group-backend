@@ -8,7 +8,9 @@ import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 @Service
 @AllArgsConstructor
@@ -18,30 +20,35 @@ public class CategoryService {
 
     public List<CategoryDto> getAllCategories() {
         List<Category> categories = categoryRepository.findAll();
-        List<CategoryDto> categoryDtos = new ArrayList<>();
+        Map<Long, List<CategoryDto>> categoryMap = new HashMap<>();
 
+        // Construct map of categories
         for (Category category : categories) {
-            if (category.getParent() == null) {
-                CategoryDto categoryDto = CategoryMapper.mapToCategoryDto(category);
-                categoryDto.setChildren(buildChildren(categoryDto, categories));
-                categoryDtos.add(categoryDto);
+            CategoryDto categoryDTO = CategoryMapper.mapToCategoryDto(category);
+
+            Long parentId = (category.getParent() != null) ? category.getParent().getId() : null;
+
+            categoryMap.computeIfAbsent(parentId, k -> new ArrayList<>()).add(categoryDTO);
+        }
+
+        // Build tree structure
+        List<CategoryDto> rootCategories = categoryMap.get(null); // Get root categories (categories without parents)
+        if (rootCategories != null) {
+            for (CategoryDto rootCategory : rootCategories) {
+                addChildCategories(rootCategory, categoryMap);
             }
         }
 
-        return categoryDtos;
+        return rootCategories;
     }
 
-    private List<CategoryDto> buildChildren(CategoryDto parent, List<Category> categories) {
-        List<CategoryDto> children = new ArrayList<>();
-        for (Category category: categories){
-            if(category.getParent() != null && category.getParent().getId().equals(parent.getId())){
-                CategoryDto categoryDto = CategoryMapper.mapToCategoryDto(category);
-                categoryDto.setChildren(buildChildren(categoryDto, categories));
-                children.add(categoryDto);
+    private void addChildCategories(CategoryDto category, Map<Long, List<CategoryDto>> categoryMap) {
+        List<CategoryDto> children = categoryMap.get(category.getId());
+        if (children != null) {
+            for (CategoryDto child : children) {
+                addChildCategories(child, categoryMap);
             }
+            category.setChildren(children);
         }
-
-        return children;
     }
-
 }

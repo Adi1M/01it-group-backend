@@ -5,7 +5,7 @@ import org.hibernate.annotations.OnDelete;
 import org.hibernate.annotations.OnDeleteAction;
 
 @Entity
-@Table(name = "Ordered_products")
+@Table(name = "ordered_products")
 @IdClass(OrderedProductsId.class)
 public class OrderedProducts {
 

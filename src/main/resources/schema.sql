@@ -1,4 +1,4 @@
-CREATE TABLE IF NOT EXISTS "Category"
+CREATE TABLE IF NOT EXISTS "category"
 (
     "id"   integer PRIMARY KEY,
     "name" varchar NOT NULL,
@@ -15,13 +15,13 @@ CREATE TABLE IF NOT EXISTS "Brand"
     "logo_url"    varchar        NOT NULL
 );
 
-CREATE TABLE IF NOT EXISTS "Role"
+CREATE TABLE IF NOT EXISTS "role"
 (
     "id"   integer PRIMARY KEY,
     "name" varchar NOT NULL
 );
 
-CREATE TABLE IF NOT EXISTS "User"
+CREATE TABLE IF NOT EXISTS "user"
 (
     "id"           integer PRIMARY KEY,
     "first_name"   varchar        NOT NULL,
@@ -31,10 +31,10 @@ CREATE TABLE IF NOT EXISTS "User"
     "gender"       varchar,
     "birth_day"    date,
     "role_id"      integer,
-    FOREIGN KEY ("role_id") REFERENCES "Role" ("id") ON DELETE CASCADE
+    FOREIGN KEY ("role_id") REFERENCES "role" ("id") ON DELETE CASCADE
 );
 
-CREATE TABLE IF NOT EXISTS "Product"
+CREATE TABLE IF NOT EXISTS "product"
 (
     "id"           integer PRIMARY KEY,
     "name"         varchar NOT NULL,
@@ -49,35 +49,35 @@ CREATE TABLE IF NOT EXISTS "Product"
     FOREIGN KEY ("brand_id") REFERENCES "Brand" ("id") ON DELETE CASCADE
 );
 
-CREATE TABLE IF NOT EXISTS "Tag"
+CREATE TABLE IF NOT EXISTS "tag"
 (
     "id"   integer PRIMARY KEY,
     "name" varchar NOT NULL
 );
 
-CREATE TABLE IF NOT EXISTS "Product_tags"
+CREATE TABLE IF NOT EXISTS "product_tags"
 (
     "product_id" integer,
     "tag_id"     integer,
-    FOREIGN KEY ("product_id") REFERENCES "Product" ("id") ON DELETE CASCADE,
-    FOREIGN KEY ("tag_id") REFERENCES "Tag" ("id") ON DELETE CASCADE
+    FOREIGN KEY ("product_id") REFERENCES "product" ("id") ON DELETE CASCADE,
+    FOREIGN KEY ("tag_id") REFERENCES "tag" ("id") ON DELETE CASCADE
 );
 
-CREATE TABLE IF NOT EXISTS "Basket"
+CREATE TABLE IF NOT EXISTS "basket"
 (
     "id"          integer PRIMARY KEY,
     "user_id"     integer,
     "total_price" decimal,
-    FOREIGN KEY ("user_id") REFERENCES "User" ("id") ON DELETE CASCADE
+    FOREIGN KEY ("user_id") REFERENCES "user" ("id") ON DELETE CASCADE
 );
 
-CREATE TABLE IF NOT EXISTS "Payment_status"
+CREATE TABLE IF NOT EXISTS "payment_status"
 (
     "id"     integer PRIMARY KEY,
     "status" varchar NOT NULL
 );
 
-CREATE TABLE IF NOT EXISTS "Order"
+CREATE TABLE IF NOT EXISTS "order"
 (
     "id"         integer PRIMARY KEY,
     "user_id"    integer,
@@ -85,30 +85,30 @@ CREATE TABLE IF NOT EXISTS "Order"
     "price"      decimal,
     "created_at" timestamp,
     "updated_at" timestamp,
-    FOREIGN KEY ("user_id") REFERENCES "User" ("id") ON DELETE CASCADE,
-    FOREIGN KEY ("status_id") REFERENCES "Payment_status" ("id") ON DELETE CASCADE
+    FOREIGN KEY ("user_id") REFERENCES "user" ("id") ON DELETE CASCADE,
+    FOREIGN KEY ("status_id") REFERENCES "payment_status" ("id") ON DELETE CASCADE
 );
 
-CREATE TABLE IF NOT EXISTS "Ordered_products"
+CREATE TABLE IF NOT EXISTS "ordered_products"
 (
     "product_id" integer,
     "order_id"   integer,
-    FOREIGN KEY ("product_id") REFERENCES "Product" ("id") ON DELETE CASCADE,
-    FOREIGN KEY ("order_id") REFERENCES "Order" ("id") ON DELETE CASCADE
+    FOREIGN KEY ("product_id") REFERENCES "product" ("id") ON DELETE CASCADE,
+    FOREIGN KEY ("order_id") REFERENCES "order" ("id") ON DELETE CASCADE
 );
 
 
 
-CREATE TABLE IF NOT EXISTS "Products_in_Basket"
+CREATE TABLE IF NOT EXISTS "products_in_Basket"
 (
     "product_id" integer,
     "basket_id"  integer,
     "quantity"   integer,
-    FOREIGN KEY ("product_id") REFERENCES "Product" ("id") ON DELETE CASCADE,
-    FOREIGN KEY ("basket_id") REFERENCES "Basket" ("id") ON DELETE CASCADE
+    FOREIGN KEY ("product_id") REFERENCES "product" ("id") ON DELETE CASCADE,
+    FOREIGN KEY ("basket_id") REFERENCES "basket" ("id") ON DELETE CASCADE
 );
 
-CREATE TABLE IF NOT EXISTS "Comment"
+CREATE TABLE IF NOT EXISTS "comment"
 (
     "id"         integer PRIMARY KEY,
     "product_id" integer,
@@ -116,30 +116,30 @@ CREATE TABLE IF NOT EXISTS "Comment"
     "content"    text    NOT NULL,
     "rating"     integer NOT NULL,
     "created_by" timestamp,
-    FOREIGN KEY ("product_id") REFERENCES "Product" ("id") ON DELETE CASCADE,
-    FOREIGN KEY ("user_id") REFERENCES "User" ("id") ON DELETE CASCADE
+    FOREIGN KEY ("product_id") REFERENCES "product" ("id") ON DELETE CASCADE,
+    FOREIGN KEY ("user_id") REFERENCES "user" ("id") ON DELETE CASCADE
 );
 
-CREATE TABLE IF NOT EXISTS "Favorites"
+CREATE TABLE IF NOT EXISTS "favorites"
 (
     "product_id" integer,
     "user_id"    integer,
-    FOREIGN KEY ("product_id") REFERENCES "Product" ("id") ON DELETE CASCADE,
-    FOREIGN KEY ("user_id") REFERENCES "User" ("id") ON DELETE CASCADE
+    FOREIGN KEY ("product_id") REFERENCES "product" ("id") ON DELETE CASCADE,
+    FOREIGN KEY ("user_id") REFERENCES "user" ("id") ON DELETE CASCADE
 );
 
-CREATE TABLE IF NOT EXISTS "Reply"
+CREATE TABLE IF NOT EXISTS "reply"
 (
     "id"         integer PRIMARY KEY,
     "user_id"    integer,
     "comment_id" integer,
     "content"    text NOT NULL,
     "created_by" timestamp,
-    FOREIGN KEY ("user_id") REFERENCES "User" ("id") ON DELETE CASCADE,
-    FOREIGN KEY ("comment_id") REFERENCES "Comment" ("id") ON DELETE CASCADE
+    FOREIGN KEY ("user_id") REFERENCES "user" ("id") ON DELETE CASCADE,
+    FOREIGN KEY ("comment_id") REFERENCES "comment" ("id") ON DELETE CASCADE
 );
 
-
+ALTER TABLE "user" add column password varchar(255);
 -- CREATE TABLE IF NOT EXISTS "Parent_category"
 -- (
 --     "child_id"  integer,

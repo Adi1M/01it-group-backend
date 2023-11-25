@@ -9,7 +9,7 @@ import java.math.BigDecimal;
 import java.sql.Timestamp;
 
 @Entity
-@Table(name = "Order")
+@Table(name = "order")
 public class Order {
 
     @Id

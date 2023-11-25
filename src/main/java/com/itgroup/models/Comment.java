@@ -9,7 +9,7 @@ import org.hibernate.annotations.OnDeleteAction;
 import java.sql.Timestamp;
 
 @Entity
-@Table(name = "Comment")
+@Table(name = "comment")
 public class Comment {
 
     @Id

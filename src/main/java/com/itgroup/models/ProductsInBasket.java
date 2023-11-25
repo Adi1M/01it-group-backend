@@ -5,7 +5,7 @@ import org.hibernate.annotations.OnDelete;
 import org.hibernate.annotations.OnDeleteAction;
 
 @Entity
-@Table(name = "Products_in_Basket")
+@Table(name = "products_in_Basket")
 @IdClass(ProductsInBasketId.class)
 public class ProductsInBasket {
 

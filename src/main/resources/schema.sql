@@ -1,13 +1,13 @@
 CREATE TABLE IF NOT EXISTS "category"
 (
-    "id"   integer PRIMARY KEY,
-    "name" varchar NOT NULL,
-    "parent_id" integer,
-    FOREIGN KEY ("parent_id") REFERENCES category ("id") ON DELETE CASCADE
+    "id"        integer PRIMARY KEY,
+    "name"      varchar NOT NULL,
+    "parent_id"    integer,
+    FOREIGN KEY ("parent_id") references "category"("id") ON DELETE CASCADE
 );
 
 
-CREATE TABLE IF NOT EXISTS "Brand"
+CREATE TABLE IF NOT EXISTS "brand"
 (
     "id"          integer PRIMARY KEY,
     "name"        varchar UNIQUE NOT NULL,
@@ -46,7 +46,7 @@ CREATE TABLE IF NOT EXISTS "product"
     "img_url"      varchar NOT NULL,
     "quantity"     integer NOT NULL,
     FOREIGN KEY ("category_id") REFERENCES category ("id") ON DELETE CASCADE,
-    FOREIGN KEY ("brand_id") REFERENCES "Brand" ("id") ON DELETE CASCADE
+    FOREIGN KEY ("brand_id") REFERENCES "brand" ("id") ON DELETE CASCADE
 );
 
 CREATE TABLE IF NOT EXISTS "tag"
@@ -140,10 +140,11 @@ CREATE TABLE IF NOT EXISTS "reply"
 );
 
 ALTER TABLE "user" add column password varchar(255);
+
 -- CREATE TABLE IF NOT EXISTS "Parent_category"
 -- (
 --     "child_id"  integer,
 --     "parent_id" integer,
---     FOREIGN KEY ("child_id") REFERENCES "Category" ("id") ON DELETE CASCADE,
---     FOREIGN KEY ("parent_id") REFERENCES "Category" ("id") ON DELETE CASCADE
+--     FOREIGN KEY ("child_id") REFERENCES "category" ("id") ON DELETE CASCADE,
+--     FOREIGN KEY ("parent_id") REFERENCES "category" ("id") ON DELETE CASCADE
 -- );

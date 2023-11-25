@@ -1,4 +1,4 @@
-TRUNCATE "Brand" CASCADE;
+TRUNCATE "brand" CASCADE;
 TRUNCATE category CASCADE;
 TRUNCATE "product" CASCADE;
 TRUNCATE "tag" CASCADE;
@@ -28,7 +28,7 @@ INSERT INTO category ("id", "name") VALUES
                                           (3, 'Home and Kitchen');
 
 -- Insert data into "brand"
-INSERT INTO "Brand" ("id", "name", "description", "logo_url") VALUES
+INSERT INTO "brand" ("id", "name", "description", "logo_url") VALUES
                                                                   (1, 'Sony', 'Electronics brand', 'sony_logo.png'),
                                                                   (2, 'Nike', 'Sportswear brand', 'nike_logo.png');
 

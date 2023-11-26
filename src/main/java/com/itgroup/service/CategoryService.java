@@ -24,6 +24,9 @@ public class CategoryService {
 
     public CategoryDto getCategoryById(Long id) {
         Optional<Category> optional = categoryRepository.findById(id);
+        if (optional.isEmpty()) {
+            throw new IllegalStateException("Empty optional category");
+        }
         Category category = optional.get();
         return CategoryMapper.mapToCategoryDto(category);
     }
@@ -35,6 +38,7 @@ public class CategoryService {
     }
 
     public CategoryDto updateCategory(CategoryDto category) {
+
         Category existingCategory = categoryRepository.findById(category.getId()).get();
         existingCategory.setName(category.getName());
         existingCategory.setParent(category.getParent());
@@ -46,6 +50,4 @@ public class CategoryService {
     public void delete(Long id) {
         categoryRepository.deleteById(id);
     }
-
-
 }

@@ -7,7 +7,7 @@ CREATE TABLE IF NOT EXISTS "category"
 );
 
 
-CREATE TABLE IF NOT EXISTS "Brand"
+CREATE TABLE IF NOT EXISTS "brand"
 (
     "id"          integer PRIMARY KEY,
     "name"        varchar UNIQUE NOT NULL,
@@ -46,7 +46,7 @@ CREATE TABLE IF NOT EXISTS "product"
     "img_url"      varchar NOT NULL,
     "quantity"     integer NOT NULL,
     FOREIGN KEY ("category_id") REFERENCES category ("id") ON DELETE CASCADE,
-    FOREIGN KEY ("brand_id") REFERENCES "Brand" ("id") ON DELETE CASCADE
+    FOREIGN KEY ("brand_id") REFERENCES "brand" ("id") ON DELETE CASCADE
 );
 
 CREATE TABLE IF NOT EXISTS "tag"
@@ -139,7 +139,7 @@ CREATE TABLE IF NOT EXISTS "reply"
     FOREIGN KEY ("comment_id") REFERENCES "comment" ("id") ON DELETE CASCADE
 );
 
-ALTER TABLE "user" add column password varchar(255);
+-- ALTER TABLE "user" add column password varchar(255);
 -- CREATE TABLE IF NOT EXISTS "Parent_category"
 -- (
 --     "child_id"  integer,

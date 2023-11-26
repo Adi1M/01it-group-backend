@@ -5,6 +5,10 @@ import com.itgroup.models.Category;
 
 public class CategoryMapper {
 
+    private CategoryMapper() {
+        throw new IllegalStateException("Utility Class");
+    }
+
     public static CategoryDto mapToCategoryDto(Category category) {
         return new CategoryDto(
                 category.getId(),

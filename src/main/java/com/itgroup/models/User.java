@@ -9,11 +9,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 import org.hibernate.annotations.OnDelete;
 import org.hibernate.annotations.OnDeleteAction;
-import org.springframework.security.core.GrantedAuthority;
-import org.springframework.security.core.userdetails.UserDetails;
 
-
-import java.util.Collection;
 import java.util.Date;
 
 
@@ -23,7 +19,7 @@ import java.util.Date;
 @NoArgsConstructor
 @AllArgsConstructor
 @Table(name = "user")
-public class User implements UserDetails {
+public class User {
 
     @Id
     @Column(name = "id")
@@ -33,16 +29,16 @@ public class User implements UserDetails {
     @Column(name = "first_name")
     @NotEmpty
     @Max(value = 30, message = "First name should be maximum 30 characters")
-    private String first_name;
+    private String firstName;
 
     @Column(name = "last_name")
     @NotEmpty
     @Max(value = 30, message = "Last name should be maximum 30 characters")
-    private String last_name;
+    private String lastName;
 
     @Column(name = "phone_number")
     @NotEmpty
-    private String phone_number;
+    private String phoneNumber;
 
     @Column(name = "email")
     @NotEmpty
@@ -52,7 +48,7 @@ public class User implements UserDetails {
     private String gender;
 
     @Column(name = "birth_day")
-    private Date birth_day;
+    private Date birthDay;
 
     @Column(name = "password")
     private String password;
@@ -62,38 +58,4 @@ public class User implements UserDetails {
     @OnDelete(action = OnDeleteAction.CASCADE)
     private Role role;
 
-    @Override
-    public Collection<? extends GrantedAuthority> getAuthorities() {
-        return null;
-    }
-
-    @Override
-    public String getPassword() {
-        return null;
-    }
-
-    @Override
-    public String getUsername() {
-        return null;
-    }
-
-    @Override
-    public boolean isAccountNonExpired() {
-        return false;
-    }
-
-    @Override
-    public boolean isAccountNonLocked() {
-        return false;
-    }
-
-    @Override
-    public boolean isCredentialsNonExpired() {
-        return false;
-    }
-
-    @Override
-    public boolean isEnabled() {
-        return false;
-    }
 }

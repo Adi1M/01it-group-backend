@@ -7,47 +7,48 @@ import com.itgroup.repositories.CategoryRepository;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
-import java.util.Optional;
-import java.util.stream.Collectors;
+import java.util.Map;
 
 @Service
 @AllArgsConstructor
 public class CategoryService {
-    private final CategoryRepository categoryRepository;
+
+    private CategoryRepository categoryRepository;
 
     public List<CategoryDto> getAllCategories() {
         List<Category> categories = categoryRepository.findAll();
-        return categories.stream().map(CategoryMapper::mapToCategoryDto)
-                .collect(Collectors.toList());
-    }
+        Map<Long, List<CategoryDto>> categoryMap = new HashMap<>();
 
-    public CategoryDto getCategoryById(Long id) {
-        Optional<Category> optional = categoryRepository.findById(id);
-        if (optional.isEmpty()) {
-            throw new IllegalStateException("Empty optional category");
+        // Construct map of categories
+        for (Category category : categories) {
+            CategoryDto categoryDTO = CategoryMapper.mapToCategoryDto(category);
+
+            Long parentId = (category.getParent() != null) ? category.getParent().getId() : null;
+
+            categoryMap.computeIfAbsent(parentId, k -> new ArrayList<>()).add(categoryDTO);
         }
-        Category category = optional.get();
-        return CategoryMapper.mapToCategoryDto(category);
+
+        // Build tree structure
+        List<CategoryDto> rootCategories = categoryMap.get(null); // Get root categories (categories without parents)
+        if (rootCategories != null) {
+            for (CategoryDto rootCategory : rootCategories) {
+                addChildCategories(rootCategory, categoryMap);
+            }
+        }
+
+        return rootCategories;
     }
 
-    public CategoryDto createCategory(CategoryDto categoryDto) {
-        Category category = CategoryMapper.mapToCategory(categoryDto);
-        Category savedCategory = categoryRepository.save(category);
-        return CategoryMapper.mapToCategoryDto(savedCategory);
-    }
-
-    public CategoryDto updateCategory(CategoryDto category) {
-
-        Category existingCategory = categoryRepository.findById(category.getId()).get();
-        existingCategory.setName(category.getName());
-        existingCategory.setParent(category.getParent());
-        Category updatedCategory = categoryRepository.save(existingCategory);
-
-        return CategoryMapper.mapToCategoryDto(updatedCategory);
-    }
-
-    public void delete(Long id) {
-        categoryRepository.deleteById(id);
+    private void addChildCategories(CategoryDto category, Map<Long, List<CategoryDto>> categoryMap) {
+        List<CategoryDto> children = categoryMap.get(category.getId());
+        if (children != null) {
+            for (CategoryDto child : children) {
+                addChildCategories(child, categoryMap);
+            }
+            category.setChildren(children);
+        }
     }
 }

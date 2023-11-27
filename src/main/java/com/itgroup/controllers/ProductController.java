@@ -12,33 +12,28 @@ public class ProductController {
         return null;
     }
 
-    @GetMapping("")
-    public String showAll() {
-        return null;
-    }
-
     @GetMapping("/search={some_text}")
     public String search(@PathVariable("some_text") String text) {
         return null;
     }
 
     @GetMapping("/{id}")
-    public String show(@PathVariable("id") int id) {
+    public String show(@PathVariable("id") Long id) {
         return null;
     }
 
     @PutMapping("/{id}")
-    public String update(@PathVariable("id") int id) {
+    public String update(@PathVariable("id") Long id) {
         return null;
     }
 
     @DeleteMapping("/{id}")
-    public String delete(@PathVariable("id") int id) {
+    public String delete(@PathVariable("id") Long id) {
         return null;
     }
 
     @GetMapping("/{category_id}")
-    public String showByCategory(@PathVariable("category_id") int category_id) {
+    public String showByCategory(@PathVariable("category_id") Long category) {
         return null;
     }
 

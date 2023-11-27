@@ -22,7 +22,7 @@ public class BasketController {
     }
 
     @DeleteMapping("/delete/{id}")
-    public String delete(@PathVariable("id") int id) {
+    public String delete(@PathVariable("id") Long id) {
         return null;
     }
 }

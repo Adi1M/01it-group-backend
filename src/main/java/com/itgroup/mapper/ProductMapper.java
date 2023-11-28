@@ -1,5 +1,6 @@
 package com.itgroup.mapper;
 
+import com.itgroup.dto.ProductDto;
 import com.itgroup.dto.ProductRequestDto;
 import com.itgroup.models.Product;
 
@@ -23,6 +24,19 @@ public class ProductMapper {
                 .imgUrl(requestDto.getImgUrl())
                 .quantity(requestDto.getQuantity())
                 .build();
+    }
+
+    public static ProductDto mapToProductDto(Product product) {
+        return new ProductDto(
+                product.getName(),
+                product.getPrice(),
+                product.getDescription(),
+                product.getRatingTotal(),
+                product.getCategory(),
+                product.getBrand(),
+                product.getImgUrl(),
+                product.getQuantity()
+        );
     }
 
 }

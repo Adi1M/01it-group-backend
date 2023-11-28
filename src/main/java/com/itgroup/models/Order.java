@@ -1,7 +1,6 @@
 package com.itgroup.models;
 
 import jakarta.persistence.*;
-import jakarta.validation.constraints.NotEmpty;
 import org.hibernate.annotations.OnDelete;
 import org.hibernate.annotations.OnDeleteAction;
 
@@ -27,8 +26,7 @@ public class Order {
     @OnDelete(action = OnDeleteAction.CASCADE)
     private PaymentStatus status;
 
-    @Column(name = "price")
-    @NotEmpty
+    @Column(name = "price", nullable = false)
     private BigDecimal price;
 
     @Column(name = "created_at")

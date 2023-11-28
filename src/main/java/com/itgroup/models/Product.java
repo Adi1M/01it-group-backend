@@ -26,8 +26,7 @@ public class Product {
     @NotEmpty
     private String name;
 
-    @Column(name = "price")
-    @NotEmpty
+    @Column(name = "price", nullable = false)
     private BigDecimal price;
 
     @Column(name = "description")
@@ -51,7 +50,6 @@ public class Product {
     @NotEmpty
     private String imgUrl;
 
-    @Column(name = "quantity")
-    @NotEmpty
+    @Column(name = "quantity", nullable = false)
     private int quantity;
 }

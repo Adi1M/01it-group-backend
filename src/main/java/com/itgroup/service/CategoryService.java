@@ -49,19 +49,20 @@ public class CategoryService {
             if (parent != null) {
                 Category newCategory = CategoryMapper.mapToCategoryFromCreate(requestDto, parent);
                 categoryRepository.save(newCategory);
-                parent.getChildren().add(newCategory);
             }
         }
     }
 
-    public CategoryDto updateCategory(Long id, CategoryDto categoryDto) {
-        Category existingCategory = findCategory(id);
-        List<Category> children = categoryDto.getChildren().stream().map(CategoryMapper::mapToCategory).toList();
-        existingCategory.setId(categoryDto.getId());
+    public void updateCategory(Long id, CategoryDto categoryDto) {
+        Category existingCategory = findCategory(categoryDto.getId());
+        List<Category> children = categoryDto.getChildren().stream()
+                .map(CategoryMapper::mapToCategory)
+                .collect(ArrayList::new, List::add, List::addAll);
+        existingCategory.setId(id);
         existingCategory.setName(categoryDto.getName());
         existingCategory.setChildren(children);
 
-        return CategoryMapper.mapToCategoryDto(existingCategory);
+        categoryRepository.save(existingCategory);
     }
 
     public void deleteCategory(Long id) {

@@ -2,7 +2,6 @@ package com.itgroup.models;
 
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotEmpty;
-import lombok.RequiredArgsConstructor;
 import org.hibernate.annotations.OnDelete;
 import org.hibernate.annotations.OnDeleteAction;
 
@@ -31,8 +30,7 @@ public class Comment {
     @NotEmpty
     private String content;
 
-    @Column(name = "rating")
-    @NotEmpty
+    @Column(name = "rating", nullable = false)
     private int rating;
 
     @Column(name = "created_by")

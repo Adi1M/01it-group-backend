@@ -3,7 +3,7 @@ package com.itgroup.controllers;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
-@RequestMapping("api/basket")
+@RequestMapping("/api/basket")
 public class BasketController {
 
     @PostMapping("/add")
@@ -13,7 +13,7 @@ public class BasketController {
 
     @GetMapping("")
     public String showAll() {
-        return null;
+        return "null";
     }
 
     @DeleteMapping("/delete")

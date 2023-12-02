@@ -2,15 +2,18 @@ package com.itgroup.models;
 
 
 import jakarta.persistence.*;
-import jakarta.validation.constraints.*;
+import jakarta.validation.constraints.NotEmpty;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import org.hibernate.annotations.OnDelete;
-import org.hibernate.annotations.OnDeleteAction;
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
+import org.springframework.security.core.userdetails.UserDetails;
 
+import java.util.Collection;
 import java.util.Date;
+import java.util.List;
 
 
 @Entity
@@ -18,8 +21,8 @@ import java.util.Date;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-@Table(name = "user")
-public class User {
+@Table(name = "_user")
+public class User implements UserDetails {
 
     @Id
     @Column(name = "id")
@@ -28,19 +31,19 @@ public class User {
 
     @Column(name = "first_name")
     @NotEmpty
-    @Max(value = 30, message = "First name should be maximum 30 characters")
-    private String firstName;
+//    @Max(value = 30, message = "First name should be maximum 30 characters")
+    private String first_name;
 
     @Column(name = "last_name")
     @NotEmpty
-    @Max(value = 30, message = "Last name should be maximum 30 characters")
-    private String lastName;
+//    @Max(value = 30, message = "Last name should be maximum 30 characters")
+    private String last_name;
 
-    @Column(name = "phone_number")
+    @Column(name = "phone_number", unique = true)
     @NotEmpty
-    private String phoneNumber;
+    private String phone_number;
 
-    @Column(name = "email")
+    @Column(name = "email", unique = true)
     @NotEmpty
     private String email;
 
@@ -48,14 +51,54 @@ public class User {
     private String gender;
 
     @Column(name = "birth_day")
-    private Date birthDay;
+    private Date birth_day;
+
+    @Column(name="role_id")
+    private int role_id;
 
     @Column(name = "password")
     private String password;
 
-    @ManyToOne
-    @JoinColumn(name = "role_id")
-    @OnDelete(action = OnDeleteAction.CASCADE)
-    private Role role;
 
+
+    @Override
+    public Collection<? extends GrantedAuthority> getAuthorities() {
+        String role;
+        if (role_id == 1) {
+            role = "ADMIN";
+        }else {
+            role = "USER";
+        }
+        return List.of(new SimpleGrantedAuthority(role));
+    }
+
+    @Override
+    public String getPassword() {
+        return password;
+    }
+
+    @Override
+    public String getUsername() {
+        return email;
+    }
+
+    @Override
+    public boolean isAccountNonExpired() {
+        return true;
+    }
+
+    @Override
+    public boolean isAccountNonLocked() {
+        return true;
+    }
+
+    @Override
+    public boolean isCredentialsNonExpired() {
+        return true;
+    }
+
+    @Override
+    public boolean isEnabled() {
+        return true;
+    }
 }

@@ -26,24 +26,24 @@
 
         @GetMapping("")
         public ResponseEntity<List<CategoryDto>> showAll() {
-            return new ResponseEntity<>(categoryService.getAllCategories(), HttpStatus.OK);
+            return ResponseEntity.ok(categoryService.getAllCategories());
         }
 
         @GetMapping("/{id}")
         public ResponseEntity<CategoryDto> showById(@PathVariable("id") Long id) {
-            return new ResponseEntity<>(categoryService.getCategoryById(id), HttpStatus.OK);
+            return ResponseEntity.ok(categoryService.getCategoryById(id));
         }
 
         @PutMapping("/{id}")
         public ResponseEntity<String> updateCategory(@PathVariable("id") Long id,
                                                           @RequestBody CategoryDto category) {
             categoryService.updateCategory(id, category);
-            return new ResponseEntity<>("Category successfully updated", HttpStatus.OK);
+            return ResponseEntity.ok("Category successfully updated");
         }
 
         @DeleteMapping("/{id}")
         public ResponseEntity<String> deleteCategory(@PathVariable("id") Long id) {
             categoryService.deleteCategory(id);
-            return new ResponseEntity<>("Category successfully deleted", HttpStatus.OK);
+            return ResponseEntity.ok("Category successfully deleted");
         }
     }

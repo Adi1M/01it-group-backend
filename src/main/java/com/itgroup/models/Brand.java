@@ -2,9 +2,16 @@ package com.itgroup.models;
 
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotEmpty;
+import lombok.*;
 
 @Entity
 @Table(name = "brand")
+@Builder
+@ToString
+@Getter
+@Setter
+@NoArgsConstructor
+@AllArgsConstructor
 public class Brand {
 
     @Id

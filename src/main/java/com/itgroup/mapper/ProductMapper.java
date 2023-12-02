@@ -28,6 +28,7 @@ public class ProductMapper {
 
     public static ProductDto mapToProductDto(Product product) {
         return new ProductDto(
+                product.getId(),
                 product.getName(),
                 product.getPrice(),
                 product.getDescription(),

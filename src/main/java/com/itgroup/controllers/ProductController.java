@@ -42,27 +42,16 @@ public class ProductController {
 
     @GetMapping("/search={some_text}")
     public ResponseEntity<List<ProductDto>> search(@PathVariable("some_text") String searchText) {
-        List<ProductDto> products = productService.searchProduct(searchText);
-        return ResponseEntity.ok(products);
+        return ResponseEntity.ok(productService.searchProduct(searchText));
     }
 
-    @GetMapping("/{category_id}")
-    public String showByCategory(@PathVariable("category_id") Long categoryId) {
-        return null;
+    @GetMapping("/category/{id}")
+    public ResponseEntity<List<ProductDto>> showByCategory(@PathVariable("id") Long categoryId) {
+        return ResponseEntity.ok(productService.showByCategory(categoryId));
     }
 
-    @GetMapping("/new")
-    public String getNewProducts() {
-        return null;
-    }
-
-    @GetMapping("/popular")
-    public String getPopularProducts() {
-        return null;
-    }
-
-    @GetMapping("/recommendations")
-    public String getRecommendedProducts() {
-        return null;
+    @GetMapping("/tag/{id}")
+    public ResponseEntity<List<ProductDto>> getByTag(@PathVariable("id") Long tagId) {
+        return ResponseEntity.ok(productService.showByTag(tagId));
     }
 }

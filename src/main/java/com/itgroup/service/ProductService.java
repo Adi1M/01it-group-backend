@@ -46,9 +46,22 @@ public class ProductService {
     }
 
     public List<ProductDto> searchProduct(String searchText) {
-        List<Product> searchedProducts = productRepository
-                .findAllByNameAndDescriptionContainingIgnoreCase(searchText, searchText);
-        return searchedProducts.stream()
+        return productRepository.findByText(searchText)
+                .stream()
+                .map(ProductMapper::mapToProductDto)
+                .collect(ArrayList::new, List::add, List::addAll);
+    }
+
+    public List<ProductDto> showByCategory(Long categoryId) {
+        return productRepository.findByCategory(categoryId)
+                .stream()
+                .map(ProductMapper::mapToProductDto)
+                .collect(ArrayList::new, List::add, List::addAll);
+    }
+
+    public List<ProductDto> showByTag(Long tagId) {
+        return productRepository.findByTag(tagId)
+                .stream()
                 .map(ProductMapper::mapToProductDto)
                 .collect(ArrayList::new, List::add, List::addAll);
     }

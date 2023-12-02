@@ -43,6 +43,17 @@ INSERT INTO "product" ("id", "name", "price", "description", "rating_total", "ca
 VALUES (1, 'Smartphone', 599.99, 'High-end smartphone', 4.5, 1, 1, 'phone_image.jpg', 50),
        (2, 'Running Shoes', 89.99, 'Comfortable running shoes', 4.2, 2, 2, 'shoes_image.jpg', 100);
 
+-- Insert data into "tag"
+INSERT INTO "tag" ("id", "name")
+VALUES (1, 'new'),
+       (2, 'popular'),
+       (3, 'recommendations');
+
+-- Insert data into "product_tag"
+INSERT INTO "product_tags" ("product_id", "tag_id")
+VALUES (1, 2),
+       (2, 2);
+
 -- Insert data into "basket"
 INSERT INTO "basket" ("id", "user_id", "total_price")
 VALUES (1, 1, 0),

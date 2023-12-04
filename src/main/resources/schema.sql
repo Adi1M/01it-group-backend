@@ -7,7 +7,7 @@ CREATE TABLE IF NOT EXISTS "category"
 );
 
 
-CREATE TABLE IF NOT EXISTS "Brand"
+CREATE TABLE IF NOT EXISTS "brand"
 (
     "id"          integer PRIMARY KEY,
     "name"        varchar UNIQUE NOT NULL,
@@ -47,7 +47,7 @@ CREATE TABLE IF NOT EXISTS "product"
     "img_url"      varchar NOT NULL,
     "quantity"     integer NOT NULL,
     FOREIGN KEY ("category_id") REFERENCES category ("id") ON DELETE CASCADE,
-    FOREIGN KEY ("brand_id") REFERENCES "Brand" ("id") ON DELETE CASCADE
+    FOREIGN KEY ("brand_id") REFERENCES "brand" ("id") ON DELETE CASCADE
 );
 
 CREATE TABLE IF NOT EXISTS "tag"
@@ -111,12 +111,12 @@ CREATE TABLE IF NOT EXISTS "products_in_Basket"
 
 CREATE TABLE IF NOT EXISTS "comment"
 (
-    "id"         integer PRIMARY KEY,
+    "id"         serial PRIMARY KEY,
     "product_id" integer,
     "user_id"    integer,
     "content"    text    NOT NULL,
-    "rating"     integer NOT NULL,
-    "created_by" timestamp,
+    "rating"     decimal NOT NULL,
+    "created_at" timestamp,
     FOREIGN KEY ("product_id") REFERENCES "product" ("id") ON DELETE CASCADE,
     FOREIGN KEY ("user_id") REFERENCES "_user" ("id") ON DELETE CASCADE
 );
@@ -135,12 +135,13 @@ CREATE TABLE IF NOT EXISTS "reply"
     "user_id"    integer,
     "comment_id" integer,
     "content"    text NOT NULL,
-    "created_by" timestamp,
+    "created_at" timestamp,
     FOREIGN KEY ("user_id") REFERENCES "_user" ("id") ON DELETE CASCADE,
     FOREIGN KEY ("comment_id") REFERENCES "comment" ("id") ON DELETE CASCADE
 );
 
 ALTER TABLE "_user" add column password varchar(255);
+
 -- CREATE TABLE IF NOT EXISTS "Parent_category"
 -- (
 --     "child_id"  integer,

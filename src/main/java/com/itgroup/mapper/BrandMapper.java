@@ -1,8 +1,8 @@
 package com.itgroup.mapper;
 
 
-import com.itgroup.dto.BrandDto;
-import com.itgroup.dto.BrandRequestDto;
+import com.itgroup.dto.BrandResponse;
+import com.itgroup.dto.BrandRequest;
 import com.itgroup.models.Brand;
 
 public class BrandMapper {
@@ -11,7 +11,7 @@ public class BrandMapper {
         throw new IllegalStateException("Utility class");
     }
 
-    public static Brand mapToBrand(BrandRequestDto requestDto) {
+    public static Brand mapToBrand(BrandRequest requestDto) {
         return Brand.builder()
                 .name(requestDto.getName())
                 .description(requestDto.getDescription())
@@ -19,8 +19,8 @@ public class BrandMapper {
                 .build();
     }
 
-    public static BrandDto mapToBrandDto(Brand brand) {
-        return BrandDto.builder()
+    public static BrandResponse mapToBrandDto(Brand brand) {
+        return BrandResponse.builder()
                 .id(brand.getId())
                 .name(brand.getName())
                 .description(brand.getDescription())

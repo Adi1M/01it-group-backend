@@ -1,15 +1,16 @@
 package com.itgroup.dto;
 
+
 import lombok.*;
+
+import java.util.List;
 
 @Getter
 @Setter
-@NoArgsConstructor
 @AllArgsConstructor
 @Builder
-public class BrandDto {
+public class CategoryResponse {
     private Long id;
     private String name;
-    private String description;
-    private String logoUrl;
+    private List<CategoryResponse> children;
 }

@@ -30,14 +30,4 @@ public class AuthorizationController {
     public String logout() {
         return null;
     }
-
-    @PatchMapping("/{id}")
-    public String update(@PathVariable("id") Long id) {
-        return null;
-    }
-
-    @GetMapping("/{id}")
-    public String show(@PathVariable("id") Long id) {
-        return null;
-    }
 }

@@ -4,7 +4,7 @@ TRUNCATE "product" CASCADE;
 TRUNCATE "tag" CASCADE;
 TRUNCATE "product_tags" CASCADE;
 TRUNCATE "role" CASCADE;
-TRUNCATE "user" CASCADE;
+TRUNCATE "_user" CASCADE;
 TRUNCATE "comment" CASCADE;
 TRUNCATE "reply" CASCADE;
 TRUNCATE "favorites" CASCADE;
@@ -18,8 +18,8 @@ TRUNCATE "products_in_Basket" CASCADE;
 
 -- Insert data into "role"
 INSERT INTO "role" ("id", "name")
-VALUES (1, 'Admin'),
-       (2, 'User');
+VALUES (1, 'ADMIN'),
+       (2, 'USER');
 
 -- Insert data into "category"
 INSERT INTO category ("id", "name")
@@ -33,7 +33,7 @@ VALUES (1, 'Sony', 'Electronics brand', 'sony_logo.png'),
        (2, 'Nike', 'Sportswear brand', 'nike_logo.png');
 
 -- Insert data into "user"
-INSERT INTO "user" ("id", "first_name", "last_name", "phone_number", "email", "gender", "birth_day", "role_id")
+INSERT INTO "_user" ("id", "first_name", "last_name", "phone_number", "email", "gender", "birth_day", "role_id")
 VALUES (1, 'John', 'Doe', '1234567890', 'john@example.com', 'Male', '1990-01-01', 1),
        (2, 'Jane', 'Smith', '9876543210', 'jane@example.com', 'Female', '1992-03-15', 2);
 
@@ -81,7 +81,7 @@ VALUES (1, 1, 1),
        (2, 2, 2);
 
 -- Insert data into "comment"
-INSERT INTO "comment" ("id", "product_id", "user_id", "content", "rating", "created_by")
+INSERT INTO "comment" ("id", "product_id", "user_id", "content", "rating", "created_at")
 VALUES (1, 1, 1, 'Great smartphone!', 5, CURRENT_TIMESTAMP),
        (2, 2, 2, 'Comfortable shoes for running', 4, CURRENT_TIMESTAMP);
 
@@ -91,6 +91,6 @@ VALUES (1, 1),
        (2, 2);
 
 -- Insert data into "reply"
-INSERT INTO "reply" ("id", "user_id", "comment_id", "content", "created_by")
+INSERT INTO "reply" ("id", "user_id", "comment_id", "content", "created_at")
 VALUES (1, 1, 1, 'Thank you!', CURRENT_TIMESTAMP),
        (2, 2, 2, 'Glad you like them!', CURRENT_TIMESTAMP);

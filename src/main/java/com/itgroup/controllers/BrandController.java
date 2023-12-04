@@ -1,7 +1,7 @@
 package com.itgroup.controllers;
 
-import com.itgroup.dto.BrandDto;
-import com.itgroup.dto.BrandRequestDto;
+import com.itgroup.dto.BrandResponse;
+import com.itgroup.dto.BrandRequest;
 import com.itgroup.service.BrandService;
 import lombok.AllArgsConstructor;
 import org.springframework.http.HttpStatus;
@@ -18,18 +18,18 @@ public class BrandController {
     private BrandService brandService;
 
     @GetMapping("")
-    public ResponseEntity<List<BrandDto>> showAll() {
+    public ResponseEntity<List<BrandResponse>> showAll() {
         return ResponseEntity.ok(brandService.showAllBrands());
     }
 
     @PostMapping("")
-    public ResponseEntity<String> add(@RequestBody BrandRequestDto requestDto) {
+    public ResponseEntity<String> add(@RequestBody BrandRequest requestDto) {
         brandService.createBrand(requestDto);
         return new ResponseEntity<>("Brand successfully created", HttpStatus.CREATED);
     }
 
     @GetMapping("/{brand_name}")
-    public ResponseEntity<BrandDto> getByName(@PathVariable("brand_name") String name) {
+    public ResponseEntity<BrandResponse> getByName(@PathVariable("brand_name") String name) {
         return ResponseEntity.ok(brandService.showByName(name));
     }
 }

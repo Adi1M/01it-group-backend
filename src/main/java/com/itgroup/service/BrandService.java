@@ -1,7 +1,7 @@
 package com.itgroup.service;
 
-import com.itgroup.dto.BrandDto;
-import com.itgroup.dto.BrandRequestDto;
+import com.itgroup.dto.BrandResponse;
+import com.itgroup.dto.BrandRequest;
 import com.itgroup.mapper.BrandMapper;
 import com.itgroup.repositories.BrandRepository;
 import lombok.AllArgsConstructor;
@@ -17,17 +17,17 @@ public class BrandService {
 
     private BrandRepository brandRepository;
 
-    public void createBrand(BrandRequestDto requestDto) {
+    public void createBrand(BrandRequest requestDto) {
         brandRepository.save(BrandMapper.mapToBrand(requestDto));
     }
 
-    public List<BrandDto> showAllBrands() {
+    public List<BrandResponse> showAllBrands() {
         return brandRepository.findAll().stream()
                 .map(BrandMapper::mapToBrandDto)
                 .collect(ArrayList::new, List::add, List::addAll);
     }
 
-    public BrandDto showByName(@PathVariable String name) {
+    public BrandResponse showByName(@PathVariable String name) {
         return BrandMapper.mapToBrandDto(brandRepository.findByName(name));
     }
 }

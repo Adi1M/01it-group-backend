@@ -1,7 +1,7 @@
 package com.itgroup.mapper;
 
-import com.itgroup.dto.ProductDto;
-import com.itgroup.dto.ProductRequestDto;
+import com.itgroup.dto.ProductResponse;
+import com.itgroup.dto.ProductRequest;
 import com.itgroup.models.Product;
 
 import java.math.BigDecimal;
@@ -13,7 +13,7 @@ public class ProductMapper {
     }
 
 
-    public static Product mapToProduct(ProductRequestDto requestDto) {
+    public static Product mapToProduct(ProductRequest requestDto) {
         return Product.builder()
                 .name(requestDto.getName())
                 .price(requestDto.getPrice())
@@ -26,18 +26,18 @@ public class ProductMapper {
                 .build();
     }
 
-    public static ProductDto mapToProductDto(Product product) {
-        return new ProductDto(
-                product.getId(),
-                product.getName(),
-                product.getPrice(),
-                product.getDescription(),
-                product.getRatingTotal(),
-                product.getCategory(),
-                product.getBrand(),
-                product.getImgUrl(),
-                product.getQuantity()
-        );
+    public static ProductResponse mapToProductDto(Product product) {
+        return ProductResponse.builder()
+                .id(product.getId())
+                .name(product.getName())
+                .price(product.getPrice())
+                .description(product.getDescription())
+                .ratingTotal(product.getRatingTotal())
+                .category(product.getCategory())
+                .brand(product.getBrand())
+                .imgUrl(product.getImgUrl())
+                .quantity(product.getQuantity())
+                .build();
     }
 
 }

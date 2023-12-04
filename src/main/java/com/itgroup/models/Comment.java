@@ -2,6 +2,7 @@ package com.itgroup.models;
 
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotEmpty;
+import lombok.*;
 import org.hibernate.annotations.OnDelete;
 import org.hibernate.annotations.OnDeleteAction;
 
@@ -9,6 +10,11 @@ import java.sql.Timestamp;
 
 @Entity
 @Table(name = "comment")
+@Builder
+@Getter
+@Setter
+@NoArgsConstructor
+@AllArgsConstructor
 public class Comment {
 
     @Id
@@ -31,9 +37,9 @@ public class Comment {
     private String content;
 
     @Column(name = "rating", nullable = false)
-    private int rating;
+    private double rating;
 
-    @Column(name = "created_by")
-    private Timestamp createdBy;
+    @Column(name = "created_at")
+    private Timestamp createdAt;
 
 }

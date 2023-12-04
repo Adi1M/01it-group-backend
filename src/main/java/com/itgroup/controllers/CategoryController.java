@@ -1,7 +1,7 @@
     package com.itgroup.controllers;
 
-    import com.itgroup.dto.CategoryRequestDto;
-    import com.itgroup.dto.CategoryDto;
+    import com.itgroup.dto.CategoryRequest;
+    import com.itgroup.dto.CategoryResponse;
     import com.itgroup.service.CategoryService;
     import lombok.AllArgsConstructor;
     import org.springframework.http.HttpStatus;
@@ -19,24 +19,24 @@
         private CategoryService categoryService;
 
         @PostMapping("")
-        public ResponseEntity<String> createCategory(@RequestBody CategoryRequestDto category) {
+        public ResponseEntity<String> createCategory(@RequestBody CategoryRequest category) {
             categoryService.createCategory(category);
             return new ResponseEntity<>("Category successfully created", HttpStatus.CREATED);
         }
 
         @GetMapping("")
-        public ResponseEntity<List<CategoryDto>> showAll() {
+        public ResponseEntity<List<CategoryResponse>> showAll() {
             return ResponseEntity.ok(categoryService.getAllCategories());
         }
 
         @GetMapping("/{id}")
-        public ResponseEntity<CategoryDto> showById(@PathVariable("id") Long id) {
+        public ResponseEntity<CategoryResponse> showById(@PathVariable("id") Long id) {
             return ResponseEntity.ok(categoryService.getCategoryById(id));
         }
 
         @PutMapping("/{id}")
         public ResponseEntity<String> updateCategory(@PathVariable("id") Long id,
-                                                          @RequestBody CategoryDto category) {
+                                                          @RequestBody CategoryResponse category) {
             categoryService.updateCategory(id, category);
             return ResponseEntity.ok("Category successfully updated");
         }

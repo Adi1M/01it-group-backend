@@ -1,7 +1,7 @@
 package com.itgroup.service;
 
-import com.itgroup.dto.CategoryRequestDto;
-import com.itgroup.dto.CategoryDto;
+import com.itgroup.dto.CategoryRequest;
+import com.itgroup.dto.CategoryResponse;
 import com.itgroup.mapper.CategoryMapper;
 import com.itgroup.models.Category;
 import com.itgroup.repositories.CategoryRepository;
@@ -16,19 +16,19 @@ public class CategoryService {
 
     private CategoryRepository categoryRepository;
 
-    public List<CategoryDto> getAllCategories() {
+    public List<CategoryResponse> getAllCategories() {
         List<Category> categories = categoryRepository.findAll();
-        Map<Long, List<CategoryDto>> mapSortedById = new HashMap<>();
+        Map<Long, List<CategoryResponse>> mapSortedById = new HashMap<>();
 
         for (Category category : categories) {
-            CategoryDto categoryDTO = CategoryMapper.mapToCategoryDto(category);
+            CategoryResponse categoryResponse = CategoryMapper.mapToCategoryDto(category);
             Long parentId = (category.getParent() != null) ? category.getParent().getId() : null;
-            mapSortedById.computeIfAbsent(parentId, k -> new ArrayList<>()).add(categoryDTO);
+            mapSortedById.computeIfAbsent(parentId, k -> new ArrayList<>()).add(categoryResponse);
         }
 
-        List<CategoryDto> rootCategories = mapSortedById.get(null);
+        List<CategoryResponse> rootCategories = mapSortedById.get(null);
         if (rootCategories != null) {
-            for (CategoryDto rootCategory : rootCategories) {
+            for (CategoryResponse rootCategory : rootCategories) {
                 addChildCategories(rootCategory, mapSortedById);
             }
         }
@@ -36,12 +36,12 @@ public class CategoryService {
         return rootCategories;
     }
 
-    public CategoryDto getCategoryById(Long id) {
+    public CategoryResponse getCategoryById(Long id) {
         Category category = findCategory(id);
         return CategoryMapper.mapToCategoryDto(category);
     }
 
-    public void createCategory(CategoryRequestDto requestDto) {
+    public void createCategory(CategoryRequest requestDto) {
         if (requestDto.getParent() == null)
             categoryRepository.save(CategoryMapper.mapToCategoryFromCreate(requestDto, null));
         else {
@@ -53,13 +53,13 @@ public class CategoryService {
         }
     }
 
-    public void updateCategory(Long id, CategoryDto categoryDto) {
-        Category existingCategory = findCategory(categoryDto.getId());
-        List<Category> children = categoryDto.getChildren().stream()
+    public void updateCategory(Long id, CategoryResponse categoryResponse) {
+        Category existingCategory = findCategory(categoryResponse.getId());
+        List<Category> children = categoryResponse.getChildren().stream()
                 .map(CategoryMapper::mapToCategory)
                 .collect(ArrayList::new, List::add, List::addAll);
         existingCategory.setId(id);
-        existingCategory.setName(categoryDto.getName());
+        existingCategory.setName(categoryResponse.getName());
         existingCategory.setChildren(children);
 
         categoryRepository.save(existingCategory);
@@ -71,10 +71,10 @@ public class CategoryService {
     }
 
 
-    private void addChildCategories(CategoryDto category, Map<Long, List<CategoryDto>> mapSortedById) {
-        List<CategoryDto> children = mapSortedById.get(category.getId());
+    private void addChildCategories(CategoryResponse category, Map<Long, List<CategoryResponse>> mapSortedById) {
+        List<CategoryResponse> children = mapSortedById.get(category.getId());
         if (children != null) {
-            for (CategoryDto child : children) {
+            for (CategoryResponse child : children) {
                 addChildCategories(child, mapSortedById);
             }
             category.setChildren(children);

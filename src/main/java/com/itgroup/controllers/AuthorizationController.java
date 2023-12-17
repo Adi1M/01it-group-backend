@@ -22,7 +22,6 @@ public class AuthorizationController {
 
     @PostMapping("/login")
     public ResponseEntity<AuthenticationResponse> login( @RequestBody AuthenticationRequest request) {
-
         return ResponseEntity.ok(service.login(request));
     }
 

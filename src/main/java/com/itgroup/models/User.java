@@ -3,10 +3,7 @@ package com.itgroup.models;
 
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotEmpty;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -16,9 +13,11 @@ import java.util.Date;
 import java.util.List;
 
 
+
 @Entity
-@Data
 @Builder
+@Getter
+@Setter
 @NoArgsConstructor
 @AllArgsConstructor
 @Table(name = "_user")
@@ -32,16 +31,16 @@ public class User implements UserDetails {
     @Column(name = "first_name")
     @NotEmpty
 //    @Max(value = 30, message = "First name should be maximum 30 characters")
-    private String first_name;
+    private String firstName;
 
     @Column(name = "last_name")
     @NotEmpty
 //    @Max(value = 30, message = "Last name should be maximum 30 characters")
-    private String last_name;
+    private String lastName;
 
     @Column(name = "phone_number", unique = true)
     @NotEmpty
-    private String phone_number;
+    private String phoneNumber;
 
     @Column(name = "email", unique = true)
     @NotEmpty
@@ -51,20 +50,29 @@ public class User implements UserDetails {
     private String gender;
 
     @Column(name = "birth_day")
-    private Date birth_day;
+    private Date birthDay;
 
     @Column(name="role_id")
-    private int role_id;
+    private int roleId;
 
     @Column(name = "password")
     private String password;
+
+    @Column(name = "city")
+    private String city;
+
+    @Column(name = "address")
+    private String address;
+
+    @Column(name = "avatar")
+    private String avatar;
 
 
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
         String role;
-        if (role_id == 1) {
+        if (roleId == 1) {
             role = "ADMIN";
         }else {
             role = "USER";

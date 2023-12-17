@@ -23,14 +23,16 @@ public class AuthenticationService {
 
     public AuthenticationResponse register(RegisterRequest request) {
         User user = User.builder()
-                .first_name(request.getFirstname())
-                .last_name(request.getLastname())
-                .phone_number(request.getPhoneNumber())
+                .firstName(request.getFirstname())
+                .lastName(request.getLastname())
+                .phoneNumber(request.getPhoneNumber())
                 .email(request.getEmail())
                 .gender(null)
-                .birth_day(null)
-                .role_id(2)
+                .birthDay(null)
+                .roleId(2)
                 .password(passwordEncoder.encode(request.getPassword()))
+                .city(request.getCity())
+                .address(request.getAddress())
                 .build();
         repository.save(user);
         String jwtToken = jwtService.generateToken(user);

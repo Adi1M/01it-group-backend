@@ -1,15 +1,16 @@
 CREATE TABLE IF NOT EXISTS "category"
 (
-    "id"   integer PRIMARY KEY,
-    "name" varchar NOT NULL,
+    "id"        serial PRIMARY KEY,
+    "name"      varchar NOT NULL,
     "parent_id" integer,
+    "img_url"   varchar not null,
     FOREIGN KEY ("parent_id") REFERENCES category ("id") ON DELETE CASCADE
 );
 
 
 CREATE TABLE IF NOT EXISTS "brand"
 (
-    "id"          integer PRIMARY KEY,
+    "id"          serial PRIMARY KEY,
     "name"        varchar UNIQUE NOT NULL,
     "description" text           NOT NULL,
     "logo_url"    varchar        NOT NULL
@@ -17,7 +18,7 @@ CREATE TABLE IF NOT EXISTS "brand"
 
 CREATE TABLE IF NOT EXISTS "role"
 (
-    "id"   integer PRIMARY KEY,
+    "id"   serial PRIMARY KEY,
     "name" varchar NOT NULL
 );
 
@@ -30,14 +31,17 @@ CREATE TABLE IF NOT EXISTS "_user"
     "email"        varchar UNIQUE NOT NULL,
     "gender"       varchar,
     "birth_day"    date,
+    "password"     varchar        NOT NULL,
+    "city"         varchar        NOT NULL,
+    "address"      varchar        NOT NULL,
+    "avatar"       varchar,
     "role_id"      integer,
---     "password"     varchar NOT NULL,
     FOREIGN KEY ("role_id") REFERENCES "role" ("id") ON DELETE CASCADE
 );
 
 CREATE TABLE IF NOT EXISTS "product"
 (
-    "id"           integer PRIMARY KEY,
+    "id"           serial PRIMARY KEY,
     "name"         varchar NOT NULL,
     "price"        decimal NOT NULL,
     "description"  text    NOT NULL,
@@ -52,7 +56,7 @@ CREATE TABLE IF NOT EXISTS "product"
 
 CREATE TABLE IF NOT EXISTS "tag"
 (
-    "id"   integer PRIMARY KEY,
+    "id"   serial PRIMARY KEY,
     "name" varchar NOT NULL
 );
 
@@ -66,7 +70,7 @@ CREATE TABLE IF NOT EXISTS "product_tags"
 
 CREATE TABLE IF NOT EXISTS "basket"
 (
-    "id"          integer PRIMARY KEY,
+    "id"          serial PRIMARY KEY,
     "user_id"     integer,
     "total_price" decimal,
     FOREIGN KEY ("user_id") REFERENCES "_user" ("id") ON DELETE CASCADE
@@ -74,13 +78,13 @@ CREATE TABLE IF NOT EXISTS "basket"
 
 CREATE TABLE IF NOT EXISTS "payment_status"
 (
-    "id"     integer PRIMARY KEY,
+    "id"     serial PRIMARY KEY,
     "status" varchar NOT NULL
 );
 
 CREATE TABLE IF NOT EXISTS "order"
 (
-    "id"         integer PRIMARY KEY,
+    "id"         serial PRIMARY KEY,
     "user_id"    integer,
     "status_id"  integer,
     "price"      decimal,
@@ -117,6 +121,7 @@ CREATE TABLE IF NOT EXISTS "comment"
     "content"    text    NOT NULL,
     "rating"     decimal NOT NULL,
     "created_at" timestamp,
+    "updated_at" timestamp,
     FOREIGN KEY ("product_id") REFERENCES "product" ("id") ON DELETE CASCADE,
     FOREIGN KEY ("user_id") REFERENCES "_user" ("id") ON DELETE CASCADE
 );
@@ -131,21 +136,12 @@ CREATE TABLE IF NOT EXISTS "favorites"
 
 CREATE TABLE IF NOT EXISTS "reply"
 (
-    "id"         integer PRIMARY KEY,
+    "id"         serial PRIMARY KEY,
     "user_id"    integer,
     "comment_id" integer,
     "content"    text NOT NULL,
     "created_at" timestamp,
+    "updated_at" timestamp,
     FOREIGN KEY ("user_id") REFERENCES "_user" ("id") ON DELETE CASCADE,
     FOREIGN KEY ("comment_id") REFERENCES "comment" ("id") ON DELETE CASCADE
 );
-
-ALTER TABLE "_user" add column password varchar(255);
-
--- CREATE TABLE IF NOT EXISTS "Parent_category"
--- (
---     "child_id"  integer,
---     "parent_id" integer,
---     FOREIGN KEY ("child_id") REFERENCES "Category" ("id") ON DELETE CASCADE,
---     FOREIGN KEY ("parent_id") REFERENCES "Category" ("id") ON DELETE CASCADE
--- );

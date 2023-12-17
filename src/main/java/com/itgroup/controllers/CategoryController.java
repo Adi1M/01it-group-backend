@@ -7,6 +7,7 @@
     import org.springframework.http.HttpStatus;
     import org.springframework.http.ResponseEntity;
     import org.springframework.web.bind.annotation.*;
+    import org.springframework.web.multipart.MultipartFile;
 
     import java.util.List;
 
@@ -19,7 +20,8 @@
         private CategoryService categoryService;
 
         @PostMapping("")
-        public ResponseEntity<String> createCategory(@RequestBody CategoryRequest category) {
+        public ResponseEntity<String> createCategory(@RequestBody CategoryRequest category,
+                                                     @RequestParam("file") MultipartFile file) {
             categoryService.createCategory(category);
             return new ResponseEntity<>("Category successfully created", HttpStatus.CREATED);
         }

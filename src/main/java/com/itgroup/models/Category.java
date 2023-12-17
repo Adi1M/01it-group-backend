@@ -32,6 +32,10 @@ public class Category {
     @JsonIgnoreProperties("children")
     private Category parent;
 
+    @Column(name = "img_url")
+    @NotEmpty
+    private String imgUrl;
+
     @OneToMany(mappedBy = "parent", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     private List<Category> children;
 }

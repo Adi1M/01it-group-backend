@@ -31,6 +31,9 @@ public class Reply {
     @NotEmpty
     private String content;
 
-    @Column(name = "created_by")
-    private Timestamp createdBy;
+    @Column(name = "created_at")
+    private Timestamp createdAt;
+
+    @Column(name = "updated_at")
+    private Timestamp updatedAt;
 }

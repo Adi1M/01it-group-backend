@@ -37,8 +37,7 @@ public class CategoryService {
     }
 
     public CategoryResponse getCategoryById(Long id) {
-        Category category = findCategory(id);
-        return CategoryMapper.mapToCategoryDto(category);
+        return CategoryMapper.mapToCategoryDto(findCategory(id));
     }
 
     public void createCategory(CategoryRequest requestDto) {

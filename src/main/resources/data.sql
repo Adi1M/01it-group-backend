@@ -22,10 +22,10 @@ VALUES (1, 'ADMIN'),
        (2, 'USER');
 
 -- Insert data into "category"
-INSERT INTO category ("id", "name")
-VALUES (1, 'Electronics'),
-       (2, 'Clothing'),
-       (3, 'Home and Kitchen');
+INSERT INTO category ("name", "img_url", "parent_id")
+VALUES ('Electronics', '{url}', null),
+       ('Antivirus', '{url}', 1),
+       ('Home and Kitchen', '{url}', null);
 
 -- Insert data into "brand"
 INSERT INTO "brand" ("id", "name", "description", "logo_url")

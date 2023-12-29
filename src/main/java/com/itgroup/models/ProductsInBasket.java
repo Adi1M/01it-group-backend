@@ -1,12 +1,18 @@
 package com.itgroup.models;
 
 import jakarta.persistence.*;
+import lombok.*;
 import org.hibernate.annotations.OnDelete;
 import org.hibernate.annotations.OnDeleteAction;
 
 @Entity
 @Table(name = "products_in_Basket")
 @IdClass(ProductsInBasketId.class)
+@NoArgsConstructor
+@AllArgsConstructor
+@Getter
+@Setter
+@Builder
 public class ProductsInBasket {
 
     @Id

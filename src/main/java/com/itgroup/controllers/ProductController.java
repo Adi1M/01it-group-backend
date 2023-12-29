@@ -65,8 +65,8 @@ public class ProductController {
     @PostMapping("/{id}/comment")
     public ResponseEntity<String> createComment(@PathVariable("id") Long id,
                                                 @RequestBody CommentRequest commentRequest,
-                                                @RequestHeader (name="Authorization") String token) {
-        commentService.createComment(id, commentRequest, jwtService.extractUsername(token));
+                                                @RequestHeader(name="Authorization") String token) {
+        commentService.createComment(id, commentRequest, jwtService.extractUsername(token.substring(7)));
         return new ResponseEntity<>("Comment successfully created", HttpStatus.CREATED);
     }
 

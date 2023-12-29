@@ -22,6 +22,7 @@ public class CommentMapper {
                 .content(commentRequest.getContent())
                 .rating(commentRequest.getRating())
                 .createdAt(new Timestamp(new Date().getTime()))
+                .updatedAt(null)
                 .build();
     }
 
@@ -33,6 +34,7 @@ public class CommentMapper {
                 .content(comment.getContent())
                 .rating(comment.getRating())
                 .createdAt(comment.getCreatedAt())
+                .updatedAt(comment.getUpdatedAt())
                 .build();
     }
 

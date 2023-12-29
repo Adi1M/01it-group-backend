@@ -104,7 +104,7 @@ CREATE TABLE IF NOT EXISTS "ordered_products"
 
 
 
-CREATE TABLE IF NOT EXISTS "products_in_Basket"
+CREATE TABLE IF NOT EXISTS "products_in_basket"
 (
     "product_id" integer,
     "basket_id"  integer,

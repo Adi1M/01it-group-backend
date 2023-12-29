@@ -1,6 +1,7 @@
 package com.itgroup.models;
 
 import jakarta.persistence.*;
+import lombok.*;
 import org.hibernate.annotations.OnDelete;
 import org.hibernate.annotations.OnDeleteAction;
 
@@ -8,6 +9,11 @@ import java.math.BigDecimal;
 
 @Entity
 @Table(name = "basket")
+@Builder
+@NoArgsConstructor
+@AllArgsConstructor
+@Getter
+@Setter
 public class Basket {
 
     @Id

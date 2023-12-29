@@ -12,7 +12,9 @@ import com.itgroup.repositories.UserRepository;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 
+import java.sql.Timestamp;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 @Service
@@ -40,6 +42,7 @@ public class CommentService {
 
         existingComment.setContent(commentRequest.getContent());
         existingComment.setRating(commentRequest.getRating());
+        existingComment.setUpdatedAt(new Timestamp(new Date().getTime()));
 
         commentRepository.save(existingComment);
     }

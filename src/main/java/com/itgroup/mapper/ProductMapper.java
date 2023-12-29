@@ -2,6 +2,8 @@ package com.itgroup.mapper;
 
 import com.itgroup.dto.ProductResponse;
 import com.itgroup.dto.ProductRequest;
+import com.itgroup.models.Brand;
+import com.itgroup.models.Category;
 import com.itgroup.models.Product;
 
 import java.math.BigDecimal;
@@ -13,14 +15,14 @@ public class ProductMapper {
     }
 
 
-    public static Product mapToProduct(ProductRequest requestDto) {
+    public static Product mapToProduct(ProductRequest requestDto, Category category, Brand brand) {
         return Product.builder()
                 .name(requestDto.getName())
                 .price(requestDto.getPrice())
                 .description(requestDto.getDescription())
                 .ratingTotal(new BigDecimal("-1.0"))
-                .category(requestDto.getCategory())
-                .brand(requestDto.getBrand())
+                .category(category)
+                .brand(brand)
                 .imgUrl(requestDto.getImgUrl())
                 .quantity(requestDto.getQuantity())
                 .build();

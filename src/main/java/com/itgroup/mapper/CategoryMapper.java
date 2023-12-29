@@ -4,8 +4,6 @@ import com.itgroup.dto.CategoryRequest;
 import com.itgroup.dto.CategoryResponse;
 import com.itgroup.models.Category;
 
-import lombok.SneakyThrows;
-
 import java.util.ArrayList;
 import java.util.List;
 
@@ -20,12 +18,16 @@ public class CategoryMapper {
             return Category.builder()
                     .id(categoryResponse.getId())
                     .name(categoryResponse.getName())
+                    .imgUrl(categoryResponse.getImgUrl())
                     .children(new ArrayList<>())
                     .build();
         return Category.builder()
                 .id(categoryResponse.getId())
                 .name(categoryResponse.getName())
-                .children(categoryResponse.getChildren().stream().map(CategoryMapper::mapToCategory).toList())
+                .imgUrl(categoryResponse.getImgUrl())
+                .children(categoryResponse.getChildren()
+                        .stream().map(CategoryMapper::mapToCategory)
+                        .collect(ArrayList::new, List::add, List::addAll))
                 .build();
     }
 
@@ -34,24 +36,28 @@ public class CategoryMapper {
             CategoryResponse.builder()
                     .id(category.getId())
                     .name(category.getName())
+                    .imgUrl(category.getImgUrl())
                     .children(new ArrayList<>())
                     .build();
         return CategoryResponse.builder()
                 .id(category.getId())
                 .name(category.getName())
+                .imgUrl(category.getImgUrl())
                 .children(category.getChildren().stream()
-                        .map(CategoryMapper::mapToCategoryDto).toList())
+                        .map(CategoryMapper::mapToCategoryDto)
+                        .collect(ArrayList::new, List::add, List::addAll))
                 .build();
     }
 
-    @SneakyThrows
     public static Category mapToCategoryFromCreate(CategoryRequest requestDto, Category parent) {
         if (parent != null) return Category.builder()
                 .name(requestDto.getName())
+                .imgUrl(requestDto.getImgUrl())
                 .parent(parent)
                 .build();
         return Category.builder()
                 .name(requestDto.getName())
+                .imgUrl(requestDto.getImgUrl())
                 .parent(null)
                 .build();
     }

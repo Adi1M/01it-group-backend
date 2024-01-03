@@ -38,7 +38,7 @@ public class BasketMapper {
     public static BasketResponse mapToBasketResponse(Basket basket, List<ProductsInBasket> productsInBaskets) {
         return BasketResponse.builder()
                 .id(basket.getId())
-                .user(basket.getUser())
+                .userId(basket.getUser().getId())
                 .products(productsInBaskets
                         .stream().map(BasketMapper::mapToProductsInBasketResponse)
                         .collect(ArrayList::new, List::add, List::addAll))

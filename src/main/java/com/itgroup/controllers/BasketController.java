@@ -17,29 +17,30 @@ public class BasketController {
     private BasketService basketService;
     private JwtService jwtService;
 
-    //FIXME Solve problems with token in Basket and Product classes for now
     @PostMapping("")
     public ResponseEntity<String> add(@RequestBody BasketRequest basketRequest,
                                       @RequestHeader(name = "Authorization") String token) {
-        basketService.addToBasket(basketRequest, jwtService.extractUsername(token.substring(7)));
-        return ResponseEntity.ok("Product successfully added");
+        if (basketService.addToBasket(basketRequest, jwtService.extractUsername(token)).startsWith("Successfully")){
+            return ResponseEntity.ok("Product successfully added");
+        }
+        return ResponseEntity.badRequest().body("The product has insufficient quantity");
     }
 
     @GetMapping("")
     public ResponseEntity<BasketResponse> showAll(@RequestHeader(name = "Authorization") String token) {
-        return ResponseEntity.ok(basketService.showAll(jwtService.extractUsername(token.substring(7))));
+        return ResponseEntity.ok(basketService.showAll(jwtService.extractUsername(token)));
     }
 
     @DeleteMapping("")
     public ResponseEntity<String> deleteAll(@RequestHeader(name = "Authorization") String token) {
-        basketService.deleteAll(jwtService.extractUsername(token.substring(7)));
+        basketService.deleteAll(jwtService.extractUsername(token));
         return ResponseEntity.ok("All products successfully deleted");
     }
 
     @DeleteMapping("/{product_id}")
     public ResponseEntity<String> delete(@PathVariable("product_id") Long productId,
                                          @RequestHeader(name = "Authorization") String token) {
-        basketService.deleteById(productId, jwtService.extractUsername(token.substring(7)));
+        basketService.deleteById(productId, jwtService.extractUsername(token));
         return ResponseEntity.ok("Product successfully deleted");
     }
 
@@ -47,7 +48,9 @@ public class BasketController {
     public ResponseEntity<String> updateQuantity(@PathVariable("product_id") Long productId,
                                                  @RequestHeader(name = "Authorization") String token,
                                                  @RequestBody ProductInBasketRequest basketRequest) {
-        basketService.updateQuantity(productId, jwtService.extractUsername(token.substring(7)), basketRequest);
-        return ResponseEntity.ok("Product successfully updated");
+        if (basketService.updateQuantity(productId, jwtService.extractUsername(token), basketRequest).startsWith("Successfully")){
+            return ResponseEntity.ok("Product successfully updated");
+        }
+        return ResponseEntity.badRequest().body("The product has insufficient quantity");
     }
 }

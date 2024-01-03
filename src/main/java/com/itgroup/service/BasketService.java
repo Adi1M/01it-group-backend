@@ -16,7 +16,6 @@ import jakarta.transaction.Transactional;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 
-import java.math.BigDecimal;
 import java.util.List;
 
 @Service
@@ -28,21 +27,27 @@ public class BasketService {
     private UserRepository userRepository;
     private ProductRepository productRepository;
 
-    //TODO create check for quantity, does we have enough quantity of product
-    public void addToBasket(BasketRequest request, String email) {
+    public String addToBasket(BasketRequest request, String email) {
         User user = findUser(email);
         Basket existingBasket = findBasket(email);
-        Product product = productRepository.findById(request.getProduct()).orElseThrow(() -> new RuntimeException("Product not found"));
-        if (existingBasket != null) {
-            existingBasket.setTotalPrice(BasketMapper
-                    .calculateTotalPrice(product.getPrice(),
-                            request.getQuantity(), existingBasket.getTotalPrice(), "add"));
-            productsInBasketRepository.save(BasketMapper
-                    .mapToProductsInBasket(request, existingBasket, product));
+        Product product = findProduct(request.getProduct());
+        if (request.getQuantity() < product.getQuantity()) {
+            if (existingBasket != null) {
+                existingBasket.setTotalPrice(BasketMapper
+                        .calculateTotalPrice(product.getPrice(),
+                                request.getQuantity(), existingBasket.getTotalPrice(), "add"));
+                productsInBasketRepository.save(BasketMapper
+                        .mapToProductsInBasket(request, existingBasket, product));
+            } else {
+                Basket newBasket = basketRepository.save(BasketMapper.mapToBasket(user, request, product));
+                productsInBasketRepository.save(BasketMapper
+                        .mapToProductsInBasket(request, newBasket, product));
+            }
+            product.setQuantity(product.getQuantity() - request.getQuantity());
+            productRepository.save(product);
+            return "Successfully recorded";
         } else {
-            Basket newBasket = basketRepository.save(BasketMapper.mapToBasket(user, request, product));
-            productsInBasketRepository.save(BasketMapper
-                    .mapToProductsInBasket(request, newBasket, product));
+            return "The product has insufficient quantity";
         }
     }
 
@@ -52,47 +57,69 @@ public class BasketService {
         return BasketMapper.mapToBasketResponse(basket, products);
     }
 
-    //TODO check the other ways to fix problem with Transactional
     @Transactional
     public void deleteAll(String email) {
         Basket basket = findBasket(email);
+        long[] id = productsInBasketRepository.findIdOfDeletedProducts(basket);
+        for (long l : id) {
+            Product product = findProduct(l);
+            product.setQuantity(productsInBasketRepository.findQuantity(l) + product.getQuantity());
+            productRepository.save(product);
+        }
         basketRepository.deleteById(basket.getId());
         productsInBasketRepository.deleteAllByBasket(basket);
     }
 
+    @Transactional
     public void deleteById(Long productId, String email) {
         Basket basket = findBasket(email);
-        ProductsInBasket product = productsInBasketRepository.findByProductId(basket, productId);
+        ProductsInBasket productInBasket = productsInBasketRepository.findByProductId(basket, productId);
+        Product product = findProduct(productId);
         basket.setTotalPrice(BasketMapper
-                .calculateTotalPrice(product.getProduct().getPrice(),
-                        product.getQuantity(), basket.getTotalPrice(), "subtract"));
+                .calculateTotalPrice(productInBasket.getProduct().getPrice(),
+                        productInBasket.getQuantity(), basket.getTotalPrice(), "subtract"));
 
+        product.setQuantity(product.getQuantity() + productInBasket.getQuantity());
+        productRepository.save(product);
         productsInBasketRepository.deleteByProductId(basket, productId);
+
     }
 
-    public void updateQuantity(Long productId, String email, ProductInBasketRequest request) {
+    public String updateQuantity(Long productId, String email, ProductInBasketRequest request) {
         Basket basket = findBasket(email);
+        Product product = findProduct(productId);
         ProductsInBasket existingProduct = productsInBasketRepository.findByProductId(basket, productId);
-        existingProduct.setQuantity(request.getQuantity());
-        if (request.getQuantity() > existingProduct.getQuantity()) {
-            basket.setTotalPrice(BasketMapper
-                    .calculateTotalPrice(existingProduct.getProduct().getPrice(),
-                            request.getQuantity() - existingProduct.getQuantity(),
-                            basket.getTotalPrice(), "add"));
+        if (request.getQuantity() < product.getQuantity()) {
+            if (request.getQuantity() > existingProduct.getQuantity()) {
+                basket.setTotalPrice(BasketMapper
+                        .calculateTotalPrice(existingProduct.getProduct().getPrice(),
+                                request.getQuantity() - existingProduct.getQuantity(),
+                                basket.getTotalPrice(), "add"));
+            } else {
+                basket.setTotalPrice(BasketMapper
+                        .calculateTotalPrice(existingProduct.getProduct().getPrice(),
+                                existingProduct.getQuantity() - request.getQuantity(),
+                                basket.getTotalPrice(), "subtract"));
+            }
+            existingProduct.setQuantity(request.getQuantity());
+            productsInBasketRepository.save(existingProduct);
+            basketRepository.save(basket);
+            return "Successfully updated";
         } else {
-            basket.setTotalPrice(BasketMapper
-                    .calculateTotalPrice(existingProduct.getProduct().getPrice(),
-                            existingProduct.getQuantity() - request.getQuantity(),
-                            basket.getTotalPrice(), "subtract"));
+            return "The product has insufficient quantity";
         }
     }
-
 
     private Basket findBasket(String email) {
         User user = findUser(email);
         return basketRepository.findByUser(user);
-
     }
+
+    private Product findProduct(Long productId) {
+        return productRepository.findById(productId).orElseThrow(
+                () -> new RuntimeException("Product not found"));
+    }
+
 
     private User findUser(String email) {
         return userRepository.findByEmail(email).orElseThrow(

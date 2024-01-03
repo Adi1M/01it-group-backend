@@ -11,6 +11,12 @@ import java.util.List;
 public interface ProductsInBasketRepository
         extends JpaRepository<ProductsInBasket, Long> {
 
+    @Query("select pb.product.id from ProductsInBasket pb where pb.basket = :basket")
+    long[] findIdOfDeletedProducts(Basket basket);
+
+    @Query("select pb.quantity from ProductsInBasket pb where pb.product.id = :productId")
+    int findQuantity(long productId);
+
     @Query("select pb from ProductsInBasket pb where pb.basket = :basket")
     List<ProductsInBasket> findAllByBasket(Basket basket);
 

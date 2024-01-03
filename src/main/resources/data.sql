@@ -12,7 +12,7 @@ TRUNCATE "payment_status" CASCADE;
 TRUNCATE "order" CASCADE;
 TRUNCATE "ordered_products" CASCADE;
 TRUNCATE "basket" CASCADE;
-TRUNCATE "products_in_Basket" CASCADE;
+TRUNCATE "products_in_basket" CASCADE;
 -- TRUNCATE "parent_category";
 
 

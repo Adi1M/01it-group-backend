@@ -8,7 +8,10 @@ import com.itgroup.repositories.CategoryRepository;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 @Service
 @AllArgsConstructor
@@ -80,10 +83,8 @@ public class CategoryService {
         }
     }
 
-    private Category findCategory(Long id) {
-        return categoryRepository.findById(id)
+    public Category findCategory(Long categoryId) {
+        return categoryRepository.findById(categoryId)
                 .orElseThrow(() -> new RuntimeException("Category not found"));
     }
-
-
 }

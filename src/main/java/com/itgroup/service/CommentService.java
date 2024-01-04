@@ -51,9 +51,9 @@ public class CommentService {
         commentRepository.deleteByProduct(findProduct(productId), commentId);
     }
 
-
-    private Product findProduct(Long id) {
-        return productRepository.findById(id)
-                .orElseThrow(() -> new RuntimeException("Product not found"));
+    public Product findProduct(Long productId) {
+        return productRepository.findById(productId).orElseThrow(
+                () -> new RuntimeException("Product not found"));
     }
+
 }

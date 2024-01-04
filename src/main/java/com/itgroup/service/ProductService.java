@@ -72,17 +72,17 @@ public class ProductService {
                 .collect(ArrayList::new, List::add, List::addAll);
     }
 
-    private Product findProduct(Long id) {
-        return productRepository.findById(id)
-                .orElseThrow(() -> new RuntimeException("Product not found"));
+    public Product findProduct(Long productId) {
+        return productRepository.findById(productId).orElseThrow(
+                () -> new RuntimeException("Product not found"));
     }
 
-    private Category findCategory(Long categoryId) {
+    public Category findCategory(Long categoryId) {
         return categoryRepository.findById(categoryId)
                 .orElseThrow(() -> new RuntimeException("Category not found"));
     }
 
-    private Brand findBrand(Long brandId) {
+    public Brand findBrand(Long brandId) {
         return brandRepository.findById(brandId)
                 .orElseThrow(() -> new RuntimeException("Brand not found"));
     }

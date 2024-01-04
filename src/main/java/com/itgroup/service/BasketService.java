@@ -4,10 +4,7 @@ import com.itgroup.dto.BasketRequest;
 import com.itgroup.dto.BasketResponse;
 import com.itgroup.dto.ProductInBasketRequest;
 import com.itgroup.mapper.BasketMapper;
-import com.itgroup.models.Basket;
-import com.itgroup.models.Product;
-import com.itgroup.models.ProductsInBasket;
-import com.itgroup.models.User;
+import com.itgroup.models.*;
 import com.itgroup.repositories.BasketRepository;
 import com.itgroup.repositories.ProductRepository;
 import com.itgroup.repositories.ProductsInBasketRepository;
@@ -110,19 +107,19 @@ public class BasketService {
         }
     }
 
-    private Basket findBasket(String email) {
+    public Basket findBasket(String email) {
         User user = findUser(email);
         return basketRepository.findByUser(user);
     }
 
-    private Product findProduct(Long productId) {
+    public Product findProduct(Long productId) {
         return productRepository.findById(productId).orElseThrow(
                 () -> new RuntimeException("Product not found"));
     }
 
-
-    private User findUser(String email) {
+    public User findUser(String email) {
         return userRepository.findByEmail(email).orElseThrow(
                 () -> new RuntimeException("User not found"));
     }
+
 }

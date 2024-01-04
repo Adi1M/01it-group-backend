@@ -21,7 +21,7 @@ public class BasketController {
     public ResponseEntity<String> add(@RequestBody BasketRequest basketRequest,
                                       @RequestHeader(name = "Authorization") String token) {
         if (basketService.addToBasket(basketRequest, jwtService.extractUsername(token)).startsWith("Successfully")){
-            return ResponseEntity.ok("Product successfully added");
+            return ResponseEntity.ok("Product successfully added into basket");
         }
         return ResponseEntity.badRequest().body("The product has insufficient quantity");
     }
@@ -34,14 +34,14 @@ public class BasketController {
     @DeleteMapping("")
     public ResponseEntity<String> deleteAll(@RequestHeader(name = "Authorization") String token) {
         basketService.deleteAll(jwtService.extractUsername(token));
-        return ResponseEntity.ok("All products successfully deleted");
+        return ResponseEntity.ok("All products successfully deleted from basket");
     }
 
     @DeleteMapping("/{product_id}")
     public ResponseEntity<String> delete(@PathVariable("product_id") Long productId,
                                          @RequestHeader(name = "Authorization") String token) {
         basketService.deleteById(productId, jwtService.extractUsername(token));
-        return ResponseEntity.ok("Product successfully deleted");
+        return ResponseEntity.ok("Product successfully deleted from basket");
     }
 
     @PutMapping("/{product_id}")
@@ -49,7 +49,7 @@ public class BasketController {
                                                  @RequestHeader(name = "Authorization") String token,
                                                  @RequestBody ProductInBasketRequest basketRequest) {
         if (basketService.updateQuantity(productId, jwtService.extractUsername(token), basketRequest).startsWith("Successfully")){
-            return ResponseEntity.ok("Product successfully updated");
+            return ResponseEntity.ok("Product in basket successfully updated");
         }
         return ResponseEntity.badRequest().body("The product has insufficient quantity");
     }
